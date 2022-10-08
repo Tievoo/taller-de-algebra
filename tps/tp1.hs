@@ -16,11 +16,12 @@ cantidad3PseudoPrimos n = contador3PseudoPrimos n 0
 
 -- EJERCICIO 4: kesimo2y3Pseudoprimo
 kesimo2y3Pseudoprimo :: Integer -> Integer
-kesimo2y3Pseudoprimo n = contadorKEsimo2y3Pseudoprimo n 2 1
+kesimo2y3Pseudoprimo n = contadorKEsimo2y3Pseudoprimo n 0 0
 
 -- EJERCICIO 5: esCarmichael
 esCarmichael :: Integer -> Bool
-esCarmichael n = contadorCarmichael n 1
+esCarmichael 1 = False
+esCarmichael n = contadorCarmichael n (n-1)
 
 -----------------------------------------------------------------------
 -- Funciones auxiliares
@@ -38,7 +39,7 @@ esPrimo 1 = False
 esPrimo n = menorDivisor n 2 == n
 
 esAPseudoPrimo :: Integer -> Integer -> Bool
-esAPseudoPrimo a n = (a^(n-1)-1) `mod` n == 0 && not (esPrimo n)
+esAPseudoPrimo a n = n >= a && (a^(n-1)-1) `mod` n == 0 && not (esPrimo n)
 
 es3PseudoPrimo :: Integer -> Bool
 es3PseudoPrimo n = esAPseudoPrimo 3 n
@@ -56,7 +57,7 @@ contadorKEsimo2y3Pseudoprimo n m k | es2PseudoPrimo m && es3PseudoPrimo m = cont
                                    
 
 contadorCarmichael :: Integer -> Integer -> Bool
-contadorCarmichael n m | m == n = True
-                       | sonCoprimos m n && not (esAPseudoPrimo m n) = False
-                       | otherwise = contadorCarmichael n (m+1)
+contadorCarmichael _ 1 = True
+contadorCarmichael n m | sonCoprimos m n && not (esAPseudoPrimo m n) = False
+                       | otherwise = contadorCarmichael n (m-1)
 
